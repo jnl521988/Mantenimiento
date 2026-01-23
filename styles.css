@@ -6,7 +6,7 @@
 
 body {
     font-family: "Segoe UI", sans-serif;
-    background: #f0f2f5;
+    background: #bec1c3;
     padding: 20px;
     color: #333;
 }
@@ -44,7 +44,7 @@ button:hover {
 }
 
 .car-info {
-    background: white;
+    background: rgb(163, 211, 176);
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 20px;
