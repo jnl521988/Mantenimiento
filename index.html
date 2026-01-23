@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Control de Mantenimiento del Coche</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>Ficha de Mantenimiento</h1>
+    <button id="btnHistory">📁 Ver Registro Histórico</button>
+</header>
+
+<!-- FICHA ANUAL -->
+<section id="maintenanceSection">
+
+    <!-- Datos del coche -->
+    <div class="car-info">
+        <h2>Datos del vehículo</h2>
+        <input type="text" id="brand" placeholder="Marca (ej. Toyota)" required>
+        <input type="text" id="model" placeholder="Modelo (ej. Corolla)" required>
+        <input type="number" id="carYear" placeholder="Año del coche" required>
+    </div>
+
+    <h3>Año de mantenimiento: <span id="year"></span></h3>
+
+    <!-- Reparaciones -->
+    <form id="repairForm">
+        <input type="date" id="date" required>
+        <input type="number" id="km" placeholder="Kilómetros" required>
+        <input type="text" id="type" placeholder="Tipo de reparación" required>
+        <input type="text" id="notes" placeholder="Observaciones">
+        <input type="number" id="price" placeholder="Precio (€)" step="0.01" required>
+        <button type="submit">Añadir Reparación</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Kilómetros</th>
+                <th>Reparación</th>
+                <th>Observaciones</th>
+                <th>Precio (€)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="currentList"></tbody>
+    </table>
+
+    <button id="closeYear">📦 Cerrar y Guardar Año</button>
+</section>
+
+<!-- REGISTRO HISTÓRICO -->
+<section id="historySection" class="hidden">
+    <h2>Registro Histórico</h2>
+
+    <label for="yearSelect">Selecciona un registro:</label>
+    <select id="yearSelect"></select>
+    <button id="exportPdfBtn">📄 Exportar a PDF</button>
+    <button id="deleteYearBtn" class="danger">🗑️ Borrar Registro</button>
+
+    <div id="historyDetail"></div>
+
+    <button id="backToMaintenance">⬅ Volver a Ficha Anual</button>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
