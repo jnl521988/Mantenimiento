@@ -29,7 +29,9 @@
     <form id="repairForm">
         <input type="date" id="date" required>
         <input type="number" id="km" placeholder="Kilómetros" required>
-        <input type="text" id="type" placeholder="Tipo de reparación" required>
+        <select id="type" required>
+    <option value="">Selecciona tipo de reparación</option>
+</select>
         <input type="text" id="notes" placeholder="Observaciones">
         <input type="number" id="price" placeholder="Precio (€)" step="0.01" required>
         <button type="submit">Añadir Reparación</button>

@@ -1,4 +1,6 @@
 // DOM
+const carDataKey = "carMaintenanceCarData";
+
 const exportPdfBtn = document.getElementById("exportPdfBtn");
 const yearEl = document.getElementById("year");
 const brandInput = document.getElementById("brand");
@@ -17,6 +19,14 @@ const yearSelect = document.getElementById("yearSelect");
 const deleteYearBtn = document.getElementById("deleteYearBtn");
 const historyDetailDiv = document.getElementById("historyDetail");
 const backBtn = document.getElementById("backToMaintenance");
+const savedCar = JSON.parse(localStorage.getItem(carDataKey));
+
+if (savedCar) {
+    brandInput.value = savedCar.brand;
+    modelInput.value = savedCar.model;
+    carYearInput.value = savedCar.year;
+}
+
 
 // Año actual
 const currentYear = new Date().getFullYear();
@@ -229,4 +239,70 @@ exportPdfBtn.addEventListener("click", () => {
     // Nombre del archivo
     const fileName = `Mantenimiento_${h.car.brand}_${h.car.model}_${h.name}.pdf`;
     doc.save(fileName);
+});
+function saveCarData() {
+    const carData = {
+        brand: brandInput.value,
+        model: modelInput.value,
+        year: carYearInput.value
+    };
+    localStorage.setItem(carDataKey, JSON.stringify(carData));
+}
+
+brandInput.addEventListener("input", saveCarData);
+modelInput.addEventListener("input", saveCarData);
+carYearInput.addEventListener("input", saveCarData);
+// 1. Lista de tipos de reparación
+const repairTypes = [
+    "Aceite Motor",
+    "Aceite Caja Cambios",
+    "Filtro Aceite",
+    "Filtro Aire",
+    "Filtro Habitáculos",
+    "Filtro Combustible",
+    "Pastillas Frenos",
+    "Discos Frenos",
+    "Liquido Frenos",
+    "Neumáticos",
+    "Batería",
+    "Dirección y Transmisión",
+    "Anticongelante",
+    "Correa Distribución",
+    "Correa Auxiliar",
+    "Bomba Agua",
+    "Amortiguadores",
+    "Escape",
+    "Calentadores o Bujías",
+    "Aire Acondicionado",
+    "Electrónica",
+    "Pre ITV",
+    "Otros"
+];
+
+// 2. Obtener select
+const typeSelect = document.getElementById("type");
+
+// 3. Llenar select al iniciar
+repairTypes.forEach(t => {
+    const option = document.createElement("option");
+    option.value = t;
+    option.text = t;
+    typeSelect.add(option);
+});
+
+// 4. Guardar tipo seleccionado al añadir reparación
+form.addEventListener("submit", e => {
+    e.preventDefault();
+
+    currentYearData.push({
+        date: date.value,
+        km: km.value,
+        type: typeSelect.value, // <-- aquí usamos el select
+        notes: notes.value,
+        price: price.value
+    });
+
+    localStorage.setItem("carMaintenanceCurrentYear", JSON.stringify(currentYearData));
+    form.reset();
+    renderCurrent();
 });
