@@ -59,21 +59,6 @@ function remove(index) {
     renderCurrent();
 }
 
-// Añadir reparación
-form.addEventListener("submit", e => {
-    e.preventDefault();
-    currentYearData.push({
-        date: date.value,
-        km: km.value,
-        type: type.value,
-        notes: notes.value,
-        price: price.value
-    });
-    localStorage.setItem("carMaintenanceCurrentYear", JSON.stringify(currentYearData));
-    form.reset();
-    renderCurrent();
-});
-
 // Cerrar año
 closeYearBtn.addEventListener("click", () => {
     if (currentYearData.length === 0) {
