@@ -120,4 +120,32 @@ th, td {
 #importDataBtn:hover {
     background: #9b59b6;
 }
+.car-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.car-fields {
+    flex: 1;
+    min-width: 250px;
+}
+
+.car-photo-container {
+    width: 180px;
+    text-align: center;
+}
+
+#carPhotoPreview {
+    width: 170px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    background: #f0f0f0;
+    display: block;
+    margin-bottom: 8px;
+}
 

@@ -21,11 +21,21 @@
 
     <!-- Datos del coche -->
     <div class="car-info">
-        <h2>Datos del vehículo</h2>
-        <input type="text" id="brand" placeholder="Marca (ej. Toyota)" required>
-        <input type="text" id="model" placeholder="Modelo (ej. Corolla)" required>
-        <input type="number" id="carYear" placeholder="Año del coche" required>
+
+    <div class="car-fields">
+        <input type="text" id="brand" placeholder="Marca">
+        <input type="text" id="model" placeholder="Modelo">
+        <input type="number" id="carYear" placeholder="Año del coche">
     </div>
+
+    <div class="car-photo-container">
+        <img id="carPhotoPreview" alt="Foto del coche">
+        <input type="file" id="carPhotoInput" accept="image/*" capture="environment">
+    </div>
+
+</div>
+
+
 
     <h3>Año de mantenimiento: <span id="year"></span></h3>
 

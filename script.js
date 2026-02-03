@@ -367,3 +367,39 @@ importFileInput.addEventListener("change", event => {
 
     reader.readAsText(file);
 });
+// =====================
+// FOTO DEL COCHE
+// =====================
+
+// Elementos
+const carPhotoInput = document.getElementById("carPhotoInput");
+const carPhotoPreview = document.getElementById("carPhotoPreview");
+
+// Cargar foto guardada al iniciar
+const savedCarData = JSON.parse(localStorage.getItem("carMaintenanceCarData"));
+if (savedCarData && savedCarData.photo) {
+    carPhotoPreview.src = savedCarData.photo;
+}
+
+// Función para guardar datos del coche incluyendo la foto
+function saveCarPhoto(photoData) {
+    const carData = JSON.parse(localStorage.getItem("carMaintenanceCarData")) || {};
+    carData.photo = photoData;
+    localStorage.setItem("carMaintenanceCarData", JSON.stringify(carData));
+}
+
+// Cuando el usuario hace o selecciona una foto
+carPhotoInput.addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+        const base64Image = event.target.result;
+        carPhotoPreview.src = base64Image;  // Mostrar imagen
+        saveCarPhoto(base64Image);          // Guardar en memoria
+    };
+
+    reader.readAsDataURL(file);
+});
