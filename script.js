@@ -371,25 +371,75 @@ importFileInput.addEventListener("change", event => {
 // FOTO DEL COCHE
 // =====================
 
-const selectPhotoBtn = document.getElementById("selectPhotoBtn");
-const carPhotoInput = document.getElementById("carPhotoInput");
-const carPhotoPreview = document.getElementById("carPhotoPreview");
+document.addEventListener("DOMContentLoaded", () => {
+    const brandInput = document.getElementById("brand");
+    const modelInput = document.getElementById("model");
+    const carYearInput = document.getElementById("carYear");
+    const carPhotoInput = document.getElementById("carPhotoInput");
+    const carPhotoPreview = document.getElementById("carPhotoPreview");
+    const selectPhotoBtn = document.getElementById("selectPhotoBtn");
 
-// Abrir selector al pulsar el botón
-selectPhotoBtn.addEventListener("click", () => {
-    carPhotoInput.click();
-});
+    // Guardar todos los datos del coche
+    function saveCarData() {
+        const carData = {
+            brand: brandInput.value,
+            model: modelInput.value,
+            year: carYearInput.value,
+            photo: carPhotoPreview.src || ""
+        };
+        localStorage.setItem("carMaintenanceCarData", JSON.stringify(carData));
+    }
 
-// Mostrar y guardar la foto
-carPhotoInput.addEventListener("change", function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
+    // Cargar datos guardados al iniciar
+    const savedCarData = JSON.parse(localStorage.getItem("carMaintenanceCarData"));
+    if (savedCarData) {
+        brandInput.value = savedCarData.brand || "";
+        modelInput.value = savedCarData.model || "";
+        carYearInput.value = savedCarData.year || "";
+        if (savedCarData.photo) carPhotoPreview.src = savedCarData.photo;
+    }
 
-    const reader = new FileReader();
-    reader.onload = event => {
-        carPhotoPreview.src = event.target.result; // mostrar foto
-        saveCarData(); // función existente que guarda marca/modelo/año/foto
-    };
-    reader.readAsDataURL(file);
+    // Guardar cambios en inputs
+    brandInput.addEventListener("input", saveCarData);
+    modelInput.addEventListener("input", saveCarData);
+    carYearInput.addEventListener("input", saveCarData);
+
+    // Abrir selector de foto al pulsar el botón
+    selectPhotoBtn.addEventListener("click", () => carPhotoInput.click());
+
+    // Subir foto y redimensionarla antes de guardar
+    carPhotoInput.addEventListener("change", e => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = event => {
+            const img = new Image();
+            img.onload = function() {
+                const maxWidth = 400;
+                const maxHeight = 300;
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxWidth || height > maxHeight) {
+                    const ratio = Math.min(maxWidth / width, maxHeight / height);
+                    width = width * ratio;
+                    height = height * ratio;
+                }
+
+                const canvas = document.createElement("canvas");
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, width, height);
+                const resizedBase64 = canvas.toDataURL("image/jpeg", 0.7);
+
+                carPhotoPreview.src = resizedBase64;
+                saveCarData();
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
 });
 
