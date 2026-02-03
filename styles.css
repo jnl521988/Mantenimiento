@@ -120,16 +120,35 @@ th, td {
 #importDataBtn:hover {
     background: #9b59b6;
 }
-.car-info {
+.vehicle-title {
+    margin-bottom: 10px;
+}
+
+/* Fila inputs + foto */
+.car-row {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 25px;
-    flex-wrap: wrap;
+    justify-content: space-between; /* inputs izquierda, foto derecha */
+    align-items: center;
+    gap: 20px;
+}
+
+.car-fields {
+    display: flex;
+    gap: 10px; /* separación entre Marca, Modelo y Año */
+}
+
+.car-fields input {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 100px;
 }
 
 .car-photo-container {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #carPhotoPreview {
@@ -138,9 +157,7 @@ th, td {
     object-fit: cover;
     border-radius: 10px;
     border: 2px solid #ccc;
-    background: #f0f0f0;
-    display: block;
-    margin: 0 auto 8px auto; /* centrado con margen abajo para el botón */
+    margin-bottom: 8px;
 }
 
 #selectPhotoBtn {
@@ -155,4 +172,3 @@ th, td {
 #selectPhotoBtn:hover {
     background: #2980b9;
 }
-

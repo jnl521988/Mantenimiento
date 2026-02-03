@@ -19,23 +19,35 @@
 <!-- FICHA ANUAL -->
 <section id="maintenanceSection">
 
-    <!-- Datos del coche -->
+    <!-- Contenedor principal de datos del coche -->
     <div class="car-info">
 
-    <div class="car-fields">
-        <input type="text" id="brand" placeholder="Marca">
-        <input type="text" id="model" placeholder="Modelo">
-        <input type="number" id="carYear" placeholder="Año del coche">
+        <!-- Título dentro del contenedor -->
+        <h2 class="vehicle-title">Datos del Vehículo</h2>
+
+        <!-- Fila inputs + foto -->
+        <div class="car-row">
+            <!-- Inputs a la izquierda -->
+            <div class="car-fields">
+                <input type="text" id="brand" placeholder="Marca">
+                <input type="text" id="model" placeholder="Modelo">
+                <input type="number" id="carYear" placeholder="Año">
+            </div>
+
+            <!-- Foto a la derecha -->
+            <div class="car-photo-container">
+                <img id="carPhotoPreview" alt="Foto del coche">
+                <button type="button" id="selectPhotoBtn">📷 Seleccionar foto</button>
+                <input type="file" id="carPhotoInput" accept="image/*" style="display: none;">
+            </div>
+        </div>
+
     </div>
 
-   <div class="car-photo-container">
-    <img id="carPhotoPreview" alt="Foto del coche">
-    <button type="button" id="selectPhotoBtn">📷 Seleccionar foto</button>
-    <input type="file" id="carPhotoInput" accept="image/*" style="display: none;">
-</div>
+</section>
 
 
-</div>
+
 
 
 
