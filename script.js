@@ -291,3 +291,79 @@ form.addEventListener("submit", e => {
     form.reset();
     renderCurrent();
 });
+
+// ============================
+// EXPORTAR / IMPORTAR BACKUP
+// ============================
+
+const exportBtn = document.getElementById("exportDataBtn");
+const importBtn = document.getElementById("importDataBtn");
+const importFileInput = document.getElementById("importFileInput");
+
+const STORAGE_KEYS = {
+    history: "carMaintenanceHistory",
+    currentYear: "carMaintenanceCurrentYear",
+    carData: "carMaintenanceCarData"
+};
+
+// 📤 EXPORTAR
+exportBtn.addEventListener("click", () => {
+    const backupData = {
+        carMaintenanceApp: true, // firma para reconocer el archivo
+        exportDate: new Date().toISOString(),
+        data: {
+            history: JSON.parse(localStorage.getItem(STORAGE_KEYS.history)) || [],
+            currentYear: JSON.parse(localStorage.getItem(STORAGE_KEYS.currentYear)) || [],
+            carData: JSON.parse(localStorage.getItem(STORAGE_KEYS.carData)) || {}
+        }
+    };
+
+    const blob = new Blob([JSON.stringify(backupData, null, 2)], {
+        type: "application/json"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "backup_mantenimiento_coche.json";
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
+// 📥 IMPORTAR
+importBtn.addEventListener("click", () => {
+    importFileInput.click();
+});
+
+importFileInput.addEventListener("change", event => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = e => {
+        try {
+            const backup = JSON.parse(e.target.result);
+
+            // Verificar que es un archivo válido de esta app
+            if (!backup.carMaintenanceApp || !backup.data) {
+                alert("Este archivo no es un backup válido del mantenimiento del coche.");
+                return;
+            }
+
+            if (!confirm("Esto sobrescribirá los datos actuales. ¿Continuar?")) return;
+
+            localStorage.setItem(STORAGE_KEYS.history, JSON.stringify(backup.data.history));
+            localStorage.setItem(STORAGE_KEYS.currentYear, JSON.stringify(backup.data.currentYear));
+            localStorage.setItem(STORAGE_KEYS.carData, JSON.stringify(backup.data.carData));
+
+            alert("Datos importados correctamente. La página se recargará.");
+            location.reload();
+
+        } catch (err) {
+            alert("Error al leer el archivo. No es un JSON válido.");
+        }
+    };
+
+    reader.readAsText(file);
+});

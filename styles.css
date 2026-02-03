@@ -105,3 +105,19 @@ th, td {
     font-weight: bold;
     margin-top: 5px;
 }
+#exportDataBtn {
+    background: #ae7327;
+}
+
+#exportDataBtn:hover {
+    background: #cca42e;
+}
+
+#importDataBtn {
+    background: #8e44ad;
+}
+
+#importDataBtn:hover {
+    background: #9b59b6;
+}
+
