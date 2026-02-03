@@ -128,13 +128,7 @@ th, td {
     flex-wrap: wrap;
 }
 
-.car-fields {
-    flex: 1;
-    min-width: 250px;
-}
-
 .car-photo-container {
-    width: 180px;
     text-align: center;
 }
 
@@ -146,6 +140,19 @@ th, td {
     border: 2px solid #ccc;
     background: #f0f0f0;
     display: block;
-    margin-bottom: 8px;
+    margin: 0 auto 8px auto; /* centrado con margen abajo para el botón */
+}
+
+#selectPhotoBtn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#selectPhotoBtn:hover {
+    background: #2980b9;
 }
 
