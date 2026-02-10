@@ -32,6 +32,7 @@
                 <input type="text" id="brand" placeholder="Marca">
                 <input type="text" id="model" placeholder="Modelo">
                 <input type="number" id="carYear" placeholder="Año">
+                <input type="text" id="plate" placeholder="Matrícula">
             </div>
 
             <!-- Foto a la derecha -->
@@ -44,13 +45,6 @@
 
     </div>
 
-</section>
-
-
-
-
-
-
     <h3>Año de mantenimiento: <span id="year"></span></h3>
 
     <!-- Reparaciones -->
@@ -60,6 +54,8 @@
         <select id="type" required>
     <option value="">Selecciona tipo de reparación</option>
 </select>
+        <input type="text" id="customType" placeholder="Escribe el tipo de reparación" style="display:none;">
+
         <input type="text" id="notes" placeholder="Observaciones">
         <input type="number" id="price" placeholder="Precio (€)" step="0.01" required>
         <button type="submit">Añadir Reparación</button>
@@ -74,6 +70,7 @@
                 <th>Observaciones</th>
                 <th>Precio (€)</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody id="currentList"></tbody>
@@ -85,9 +82,12 @@
 <!-- REGISTRO HISTÓRICO -->
 <section id="historySection" class="hidden">
     <h2>Registro Histórico</h2>
-
-    <label for="yearSelect">Selecciona un registro:</label>
+<div class="total-box">
+    💰 Gasto Total Histórico: <span id="grandTotal">0 €</span>
+</div>
+    <label for="yearSelect">Selecciona un Registro:</label>
     <select id="yearSelect"></select>
+    <button id="editYearBtn">✏️ Editar Año</button>
     <button id="exportPdfBtn">📄 Exportar a PDF</button>
     <button id="deleteYearBtn" class="danger">🗑️ Borrar Registro</button>
 
@@ -97,6 +97,7 @@
 </section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script src="script.js"></script>
 </body>
 </html>

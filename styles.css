@@ -172,3 +172,11 @@ th, td {
 #selectPhotoBtn:hover {
     background: #2980b9;
 }
+.total-box {
+    background: #eef6ff;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px 0 15px 0;
+    font-weight: bold;
+    font-size: 16px;
+}
