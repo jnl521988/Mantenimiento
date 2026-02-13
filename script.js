@@ -46,6 +46,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     yearEl.textContent = new Date().getFullYear();
 
+// ==========================
+// GUARDAR DATOS VEHÍCULO AUTOMÁTICAMENTE
+// ==========================
+[brandInput, modelInput, carYearInput, plateInput].forEach(input => {
+    input.addEventListener("input", saveCarData);
+     input.addEventListener("change", saveCarData);
+});
+
+window.addEventListener("beforeunload", saveCarData);
+
     // ==========================
     // CARGAR DATOS COCHE
     // ==========================
