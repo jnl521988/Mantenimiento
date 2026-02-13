@@ -68,6 +68,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }));
     }
 
+// Guardar automáticamente cualquier cambio en los datos del coche
+[brandInput, modelInput, carYearInput, plateInput].forEach(input => {
+    input.addEventListener("input", () => {
+        saveCarData();
+    });
+});
+
     // ==========================
 // FOTO REDUCIDA PARA MÓVIL
 // ==========================
