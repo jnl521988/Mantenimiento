@@ -69,19 +69,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================
-    // FOTO
-    // ==========================
-    selectPhotoBtn.addEventListener("click", () => carPhotoInput.click());
-    carPhotoInput.addEventListener("change", e => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = ev => {
-            carPhotoPreview.src = ev.target.result;
-            saveCarData();
+// FOTO REDUCIDA PARA MÓVIL
+// ==========================
+selectPhotoBtn.addEventListener("click", () => carPhotoInput.click());
+
+carPhotoInput.addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = ev => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const maxWidth = 400;  // ancho máximo
+            const maxHeight = 300; // alto máximo
+            let ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
+            canvas.width = img.width * ratio;
+            canvas.height = img.height * ratio;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            const dataUrl = canvas.toDataURL("image/jpeg", 0.7); // compresión JPEG
+            carPhotoPreview.src = dataUrl;
+            saveCarData(); // guardar en localStorage
         };
-        reader.readAsDataURL(file);
-    });
+        img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+});
+
 
     // ==========================
     // TIPOS REPARACIÓN
