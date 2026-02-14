@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // VARIABLES DOM
     // ==========================
     const carDataKey = "carMaintenanceCarData";
+    const exportPdfBtn = document.getElementById("exportPdfBtn");
 
     const yearEl = document.getElementById("year");
     const brandInput = document.getElementById("brand");
@@ -32,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const deleteYearBtn = document.getElementById("deleteYearBtn");
     const historyDetailDiv = document.getElementById("historyDetail");
     const backBtn = document.getElementById("backToMaintenance");
-    const exportPdfBtn = document.getElementById("exportPdfBtn");
 
     const STORAGE_KEYS = {
         history: "carMaintenanceHistory",
@@ -77,13 +77,6 @@ window.addEventListener("beforeunload", saveCarData);
             photo: carPhotoPreview.src || ""
         }));
     }
-
-// Guardar automáticamente cualquier cambio en los datos del coche
-[brandInput, modelInput, carYearInput, plateInput].forEach(input => {
-    input.addEventListener("input", () => {
-        saveCarData();
-    });
-});
 
     // ==========================
 // FOTO REDUCIDA PARA MÓVIL
@@ -221,6 +214,8 @@ carPhotoInput.addEventListener("change", e => {
     // CERRAR AÑO
     // ==========================
     closeYearBtn.addEventListener("click", () => {
+        saveCarData(); // 🔥 MUY IMPORTANTE
+
         if (currentYearData.length === 0) return alert("No hay reparaciones");
 
         const maintenanceYear = prompt("Año del registro:");
@@ -233,7 +228,8 @@ carPhotoInput.addEventListener("change", e => {
                 model: modelInput.value,
                 year: carYearInput.value,
                 plate: plateInput.value,
-                photo: carPhotoPreview.src
+               photo: carPhotoPreview.src || (savedCar ? savedCar.photo : "")
+
             },
             records: currentYearData
         });
@@ -243,6 +239,8 @@ carPhotoInput.addEventListener("change", e => {
         currentYearData = [];
         renderCurrent();
         updateGrandTotal();
+        saveCarData();
+
     });
 
     // ==========================
@@ -269,10 +267,14 @@ carPhotoInput.addEventListener("change", e => {
             return;
         }
 
+        const savedCar = JSON.parse(localStorage.getItem("carMaintenanceCarData")) || {};
+
+const plate = h.car.plate || savedCar.plate || "No indicada";
+
         let total = h.records.reduce((s, r) => s + (parseFloat(r.price) || 0), 0);
 
         historyDetailDiv.innerHTML = `
-            <h3>${h.car.brand} ${h.car.model} (${h.car.year}) - Matrícula: ${h.car.plate || ""}</h3>
+            <h3>${h.car.brand} ${h.car.model} (${h.car.year}) - Matrícula: ${h.car.plate || "No indicada"}</h3>
             <table>
                 <tr><th>Fecha</th><th>Kms</th><th>Reparación</th><th>Observaciones</th><th>Precio</th></tr>
                 ${h.records.map(r => `
@@ -362,18 +364,24 @@ carPhotoInput.addEventListener("change", e => {
     // EDITAR / BORRAR AÑO
     // ==========================
     editYearBtn.addEventListener("click", ()=>{
+        saveCarData(); // 🔥 guardar coche al cargar edición
+
         const i = parseInt(yearSelect.value);
         if (isNaN(i)) return alert("Selecciona un registro");
         const h = history[i];
         if (!h) return;
         if (!confirm("Se cargará el año en la ficha anual para editarlo.")) return;
 
-        brandInput.value = h.car.brand;
-        modelInput.value = h.car.model;
-        carYearInput.value = h.car.year;
-        plateInput.value = h.car.plate || "";
-        carPhotoPreview.src = h.car.photo || "";
-        saveCarData();
+        const savedCar = JSON.parse(localStorage.getItem("carMaintenanceCarData")) || {};
+
+brandInput.value = h.car.brand || savedCar.brand || "";
+modelInput.value = h.car.model || savedCar.model || "";
+carYearInput.value = h.car.year || savedCar.year || "";
+plateInput.value = h.car.plate || savedCar.plate || "";
+carPhotoPreview.src = h.car.photo || savedCar.photo || "";
+
+saveCarData(); // 🔥 MUY IMPORTANTE
+
 
         currentYearData = [...h.records];
         localStorage.setItem(STORAGE_KEYS.currentYear, JSON.stringify(currentYearData));
@@ -403,6 +411,8 @@ carPhotoInput.addEventListener("change", e => {
 
     renderCurrent();
     updateGrandTotal();
+    saveCarData();
+
 });
 
 
